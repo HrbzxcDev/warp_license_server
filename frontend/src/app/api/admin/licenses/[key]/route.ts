@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revokeLicense } from "@/lib/api";
+import { revokeLicense } from "@/db/licenses";
 import { requireAuth } from "@/lib/require-auth";
 
 type RouteContext = { params: Promise<{ key: string }> };
@@ -21,6 +21,6 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to revoke license";
-    return NextResponse.json({ error: message }, { status: 502 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

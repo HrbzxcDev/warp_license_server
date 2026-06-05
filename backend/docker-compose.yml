@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  warp-license-server:
+    build: .
+    ports:
+      - "5150:5150"
+    environment:
+      - API_KEY=${API_KEY}
+      - ADMIN_KEY=${ADMIN_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+    restart: unless-stopped

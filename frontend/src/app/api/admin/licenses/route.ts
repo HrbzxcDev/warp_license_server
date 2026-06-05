@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createLicense, listLicenses } from "@/lib/api";
+import { createLicense, listLicenses } from "@/db/licenses";
 import { requireAuth } from "@/lib/require-auth";
 import type { CreateLicenseBody } from "@/lib/types";
 
@@ -12,7 +12,7 @@ export async function GET() {
     return NextResponse.json(licenses);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to list licenses";
-    return NextResponse.json({ error: message }, { status: 502 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -45,6 +45,6 @@ export async function POST(request: Request) {
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to create license";
-    return NextResponse.json({ error: message }, { status: 502 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

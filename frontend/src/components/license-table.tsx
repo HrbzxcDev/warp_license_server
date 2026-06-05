@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Ban, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { toast } from "sonner";
 import type { License } from "@/lib/types";
 import { formatDate } from "@/lib/format-date";
@@ -110,7 +110,7 @@ export function LicenseTable({ initialLicenses }: Props) {
             />
           </div>
           <select
-            className="h-9 rounded-md border border-zinc-200 bg-white px-3 text-sm dark:border-zinc-700 dark:bg-zinc-900"
+            className="h-9 rounded-md border p-2 border-zinc-200 bg-white px-3 text-xs dark:border-zinc-700 dark:bg-zinc-900"
             value={statusFilter}
             onChange={(e) =>
               setStatusFilter(e.target.value as "all" | "active" | "inactive")
