@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -17,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [adminKey, setAdminKey] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -39,8 +37,13 @@ export default function LoginPage() {
       }
 
       toast.success("Signed In Successfully!");
-      router.push("/dashboard");
-      router.refresh();
+      const params = new URLSearchParams(window.location.search);
+      const from = params.get("from");
+      const target =
+        from && from.startsWith("/") && !from.startsWith("//")
+          ? from
+          : "/dashboard";
+      window.location.assign(target);
     } catch {
       toast.error("Network Error");
     } finally {

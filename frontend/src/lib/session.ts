@@ -30,12 +30,42 @@ export async function verifySessionToken(
   }
 }
 
-export function sessionCookieOptions(maxAge = 60 * 60 * 24 * 7) {
+/** Detect HTTPS (direct or behind a reverse proxy). */
+export function isSecureRequest(request: Request): boolean {
+  if (process.env.COOKIE_SECURE === "true") return true;
+  if (process.env.COOKIE_SECURE === "false") return false;
+
+  const forwarded = request.headers.get("x-forwarded-proto");
+  if (forwarded) {
+    return forwarded.split(",")[0]?.trim() === "https";
+  }
+
+  try {
+    return new URL(request.url).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+export function sessionCookieOptions(
+  request: Request,
+  maxAge = 60 * 60 * 24 * 7
+) {
   return {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isSecureRequest(request),
     sameSite: "lax" as const,
     path: "/",
     maxAge,
+  };
+}
+
+export function clearSessionCookieOptions(request: Request) {
+  return {
+    httpOnly: true,
+    secure: isSecureRequest(request),
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: 0,
   };
 }
