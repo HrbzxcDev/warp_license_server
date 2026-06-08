@@ -1,0 +1,7 @@
+services:
+  warp-license-server:
+    image: ghcr.io/hrbzxcdev/warp-license-backend:latest
+    ports:
+      - "5150:5150"
+    env_file: .env
+    restart: unless-stopped
